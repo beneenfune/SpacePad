@@ -1,0 +1,141 @@
+.page {
+  --gray-rgb: 0, 0, 0;
+  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
+  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+
+  --button-primary-hover: #383838;
+  --button-secondary-hover: #f2f2f2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px;
+  gap: 40px; /* Spacing between main sections */
+  font-family: var(--font-geist-mono);
+}
+
+.header {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 1.5rem; /* Increased margin for better separation */
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 1.5rem; /* Added space to avoid cramping */
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  max-width: 900px; /* Set a consistent max-width */
+}
+
+.body {
+  font-size: 1rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem; /* Increased margin for more space */
+  text-align: left; /* Keep the alignment consistent with h2 */
+  max-width: 900px; /* Same max-width as h2 */
+  line-height: 1.6; /* Added line-height for better readability */
+}
+
+.rocketIcon {
+  margin-left: 0.5rem;
+  color: #6495ed;
+  font-size: 2rem;
+  animation: rocket-move 1.5s infinite ease-in-out;
+}
+
+.white-icon {
+  filter: brightness(0) invert(1); /* Ensures icon is white */
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px; /* Adjusted gap for even spacing */
+  align-items: center; /* Centering content */
+  max-width: 800px; /* Limiting width for a cleaner look */
+}
+
+.ctas {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  margin-top: 24px; /* Keeps spacing consistent */
+  gap: 16px; /* Spacing between buttons if needed */
+}
+
+.ctas a {
+  border-radius: 128px;
+  height: 48px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+a.primary {
+  background: var(--foreground);
+  color: var(--background);
+  gap: 8px;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 32px;
+  }
+
+  .main {
+    align-items: center;
+  }
+
+  .h2, .body {
+    text-align: center; /* Ensure text centers on smaller screens */
+  }
+
+  .ctas {
+    flex-direction: column;
+  }
+
+  .ctas a {
+    font-size: 14px;
+    height: 40px;
+    padding: 0 16px;
+  }
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  background-color: #6495ed; /* Or your preferred button color */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none; /* Remove underline */
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.primaryButton:hover {
+  background-color: #4A7BD7; /* Button hover color */
+}
+
+.primaryButton img {
+  margin-right: 10px;
+}
+

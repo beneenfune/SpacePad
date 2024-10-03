@@ -1,0 +1,111 @@
+/* Style for the gray header bar */
+.headerBar {
+  width: 100%;
+  background-color: #f0f0f0; /* Light gray */
+  padding: 10px 20px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Style for the text and icon inside the header */
+.headerContent {
+  font-size: 2.0rem;
+  font-weight: bold;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+}
+
+/* Position the rocket icon to the right of the text */
+.rocketIcon {
+  margin-left: 10px;
+  color: #6495ED;
+  font-size: 2rem;
+}
+
+/* Styling for the h2 outside of the header */
+.h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-top: 20px;
+  text-align: left;
+  margin-left:20px;
+}
+
+/* General page styling */
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding: 20px;
+  font-family: var(--font-geist-mono);
+
+}
+
+.dropdown {
+  position: relative;
+  margin-top: 20px;
+}
+
+.dropdownHeader {
+  padding: 10px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdownList {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  width: 100%; /* Make dropdown full width */
+}
+
+.dropdownItem {
+  padding: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: #e0e0e0; /* Hover color */
+  }
+}
+
+.selected {
+  background-color: #d0d0d0; /* Color for selected item */
+}
+
+.orientationHeader {
+  font-weight: bold;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+
+.caretIcon {
+  margin-left: 10px;
+}
+
+.previewButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #6495ED; /* Same as previous color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.previewButton:hover {
+  background-color: #5678B3; /* Darker shade for hover */
+}
+
+  
+
+  
