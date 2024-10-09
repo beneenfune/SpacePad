@@ -1,5 +1,8 @@
-import type { Metadata } from "next";
+"use client"; // This marks the component as a Client Component
+
 import localFont from "next/font/local";
+import { PageFormatProvider } from "../context/PageFormatContext"; // Correct the import path if necessary
+import { metadata } from "./metadata"; // Adjust the import path as needed
 import "./globals.css";
 
 const geistSans = localFont({
@@ -7,16 +10,12 @@ const geistSans = localFont({
   variable: "--font-geist-sans",
   weight: "100 900",
 });
+
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-
-export const metadata: Metadata = {
-  title: "SpacePad",
-  description: "App to generate space for easy note-taking on tablet devices",
-};
 
 export default function RootLayout({
   children,
@@ -26,8 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <PageFormatProvider>{children}</PageFormatProvider>
       </body>
     </html>
   );
 }
+
+// Note: metadata is not included here anymore.

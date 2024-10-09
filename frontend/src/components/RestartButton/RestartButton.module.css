@@ -1,0 +1,28 @@
+/* RestartButton.module.css */
+
+.restartButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* Show pointer cursor on hover */
+  transition: transform 0.2s; /* Smooth hover effect */
+}
+
+.restartButtonContainer:hover {
+  transform: scale(1.1); /* Scale effect on hover */
+}
+
+.restartButton {
+  background-color: red; /* Red circle */
+  border-radius: 50%; /* Make it circular */
+  padding: 15px; /* Padding to increase size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.restartButton svg {
+  color: white; /* Icon color */
+  width: 24px; /* Adjust icon size */
+  height: 24px; /* Adjust icon size */
+}

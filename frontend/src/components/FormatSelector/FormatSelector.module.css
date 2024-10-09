@@ -1,0 +1,62 @@
+/* FormatSelector.module.css */
+
+.orientationContainer {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Align items vertically in the center */
+  margin-bottom: 10px; /* Add bottom margin for spacing */
+}
+
+.orientationOptions {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: row; /* Align options in a row */
+  justify-content: left; /* Align to the left */
+  margin-left: 20px; /* Add left margin */
+  gap: 20px; /* Space between options */
+}
+
+.orientationOption {
+  display: flex; /* Use flexbox for each option */
+  align-items: center; /* Center align items vertically */
+}
+
+.imageLabel {
+  display: flex; /* Use flexbox to arrange the label */
+  align-items: center; /* Center align items vertically */
+  cursor: pointer; /* Show pointer cursor on hover */
+}
+
+.radioInput {
+  margin-right: 10px; /* Space between radio button and label */
+  /* You can adjust visibility here if necessary */
+}
+
+.orientationText {
+  margin-left: 3px; /* Space between radio button and text */
+  margin-right: 6px;
+  font-size: 1.10rem; /* Font size for text */
+}
+
+.portraitIcon {
+  width: 29px; /* Set width for portrait icon */
+  height: auto; /* Keep aspect ratio */
+}
+
+.icon {
+  width: 40px; /* Set width for landscape icon */
+  height: 40px; /* Set height for landscape icon */
+}
+
+.h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin: 0; /* Remove margin for better alignment */
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Use flex-start for left alignment */
+  padding: 20px;
+  font-family: var(--font-geist-mono);
+}

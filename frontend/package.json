@@ -15,6 +15,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/icons-material": "^6.1.1",
     "@mui/material": "^6.1.1",
+    "fabric": "^6.4.3",
     "next": "14.2.13",
     "react": "^18",
     "react-dom": "^18",

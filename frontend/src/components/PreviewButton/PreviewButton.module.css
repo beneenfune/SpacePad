@@ -1,0 +1,22 @@
+/* PreviewButton.module.css */
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end; /* Align button to the right */
+  margin-top: 5px; 
+}
+
+.previewButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #6495ED; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: var(--font-geist-mono); 
+}
+
+.previewButton:hover {
+  background-color: #5678B3; /* Darker shade for hover */
+}

@@ -1,0 +1,18 @@
+.backButton {
+  background: none; /* No background for the button */
+  border: none; /* Remove border */
+  cursor: pointer; /* Change cursor to pointer */
+  padding: 0; /* Remove padding */
+  display: flex; /* Use flex to center the icon */
+  align-items: center; /* Center vertically */
+}
+
+.icon {
+  font-size: 24px; /* Adjust size of the icon */
+  color: #2c3e50; /* Change color of the icon (adjust as needed) */
+  transition: color 0.3s; /* Smooth transition for hover effect */
+}
+
+.backButton:hover .icon {
+  color: #3498db; /* Change color on hover (optional) */
+}

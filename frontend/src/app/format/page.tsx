@@ -1,143 +1,208 @@
-"use client"; 
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import styles from './page.module.css';
-import { FaRocket } from 'react-icons/fa';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useState } from "react";
+import styles from "./page.module.css";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { HiPencilAlt } from "react-icons/hi";
 import { BiLandscape } from "react-icons/bi";
 import { MdOutlinePortrait } from "react-icons/md";
-import Image from 'next/image';
+import HeaderBar from "@/components/HeaderBar/HeaderBar";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import PreviewButton from "@/components/PreviewButton/PreviewButton"; 
+import BackButton from "@/components/BackButton/BackButton";
+import {
+  PageFormat,
+  usePageFormatContext,
+} from "../../context/PageFormatContext";
 
 export default function FormatPage() {
   const [expanded, setExpanded] = useState<string | false>(false);
+  const router = useRouter();
 
-  // Separate states for Landscape and Portrait templates
-  const [selectedLandscapeTemplate, setSelectedLandscapeTemplate] = useState('');
-  const [selectedPortraitTemplate, setSelectedPortraitTemplate] = useState('');
-  const [selectedOrientation, setSelectedOrientation] = useState('Landscape'); // Default option
+  // Access context
+  const { format, setFormat } = usePageFormatContext(); // Added context here
+  const [selectedOrientation, setSelectedOrientation] =
+    useState<PageFormat>("landscape"); // Default to landscape
+  const [selectedLandscapeTemplate, setSelectedLandscapeTemplate] = useState<
+    string | null
+  >(null);
+  const [selectedPortraitTemplate, setSelectedPortraitTemplate] = useState<
+    string | null
+  >(null);
+
+  const handleOrientationChange = (option: PageFormat) => {
+    setSelectedOrientation(option);
+    setFormat(option); // Update context when user selects orientation
+  };
+
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
+
+  const handleContinue = () => {
+    // Passing the selectedOrientation as a query parameter
+    router.push(`/customize?orientation=${selectedOrientation}`);
+  };
 
   const handleTemplateSelect = (template: string, orientation: string) => {
-    if (orientation === 'landscape') {
+    if (orientation === "landscape") {
       setSelectedLandscapeTemplate(template);
-    } else if (orientation === 'portrait') {
+    } else {
       setSelectedPortraitTemplate(template);
     }
   };
 
-  const handleOrientationChange = (option: string) => {
-    setSelectedOrientation(option);
-  };
-  
-  const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : false);
+  // Function to handle preview button click
+  const handlePreview = () => {
+    alert("Previewing..."); // Action to perform on preview
   };
 
   return (
     <div className={styles.page}>
-      <header className={styles.headerBar}>
-        <Link href="/" className={styles.headerContent}>
-          SpacePad
-          <FaRocket className={styles.rocketIcon} />
-        </Link>
-      </header>
+      <HeaderBar />
+      <div className={styles.headerContainer}>
+        <BackButton />
+        <div className={styles.h2}>Choose Page Format</div>
+      </div>
 
-      <div className={styles.h2}>Choose Page Format</div>
-
-      {/* Accordions for Landscape, Portrait, and Customize */}
-      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-          <Typography className={styles.customTypography}>Landscape Templates <BiLandscape className={styles.landscapeIcon}/></Typography>
+      {/* Accordion for Landscape */}
+      <Accordion
+        expanded={expanded === "panel1"}
+        onChange={handleChange("panel1")}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <h2 className={styles.customTypography}>
+            Landscape Templates <BiLandscape className={styles.landscapeIcon} />
+          </h2>
         </AccordionSummary>
         <AccordionDetails>
           {/* Landscape Templates form */}
           <div className={styles.templateOptions}>
             {[1, 2, 3].map((item) => (
               <div key={item} className={styles.templateOption}>
-                <label htmlFor={`landscape-template${item}`} className={styles.imageLabel}>
+                <label
+                  htmlFor={`landscape-template${item}`}
+                  className={styles.imageLabel}
+                >
                   <input
                     type="radio"
                     id={`landscape-template${item}`}
                     name="landscapeTemplate"
                     value={`Landscape Template ${item}`}
-                    checked={selectedLandscapeTemplate === `Landscape Template ${item}`}
-                    onChange={() => handleTemplateSelect(`Landscape Template ${item}`, 'landscape')}
+                    checked={
+                      selectedLandscapeTemplate === `Landscape Template ${item}`
+                    }
+                    onChange={() =>
+                      handleTemplateSelect(
+                        `Landscape Template ${item}`,
+                        "landscape"
+                      )
+                    }
                   />
                   {/* Image component used for displaying template image */}
                   <Image
-                    src={`/templates/landscape-${item}.jpg`}  
+                    src={`/templates/landscape-${item}.jpg`}
                     alt={`Landscape Template ${item}`}
                     width={100}
                     height={100}
-                    className={selectedLandscapeTemplate === `Landscape Template ${item}` ? styles.selectedImage : styles.templateImage}
+                    className={
+                      selectedLandscapeTemplate === `Landscape Template ${item}`
+                        ? styles.selectedImage
+                        : styles.templateImage
+                    }
                   />
                 </label>
               </div>
             ))}
           </div>
           <div className={styles.buttonContainer}>
-            {/* Preview Button */}
-            <button
-              type="button"
-              className={styles.previewButton}
-              onClick={() => alert('Previewing...')}
-            >
-              Preview
-            </button>
+            <PreviewButton onPreview={handlePreview} />
           </div>
         </AccordionDetails>
       </Accordion>
 
-      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel2a-content" id="panel2a-header">
-          <Typography className={styles.customTypography}>Portrait Templates <MdOutlinePortrait className={styles.portraitPersonIcon} /></Typography>
+      {/* Accordion for Portrait */}
+      <Accordion
+        expanded={expanded === "panel2"}
+        onChange={handleChange("panel2")}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <h2 className={styles.customTypography}>
+            Portrait Templates{" "}
+            <MdOutlinePortrait className={styles.portraitPersonIcon} />
+          </h2>
         </AccordionSummary>
         <AccordionDetails>
           {/* Portrait Templates form */}
           <div className={styles.templateOptions}>
             {[1, 2, 3].map((item) => (
               <div key={item} className={styles.templateOption}>
-                <label htmlFor={`portrait-template${item}`} className={styles.imageLabel}>
+                <label
+                  htmlFor={`portrait-template${item}`}
+                  className={styles.imageLabel}
+                >
                   <input
                     type="radio"
                     id={`portrait-template${item}`}
                     name="portraitTemplate"
                     value={`Portrait Template ${item}`}
-                    checked={selectedPortraitTemplate === `Portrait Template ${item}`}
-                    onChange={() => handleTemplateSelect(`Portrait Template ${item}`, 'portrait')}
+                    checked={
+                      selectedPortraitTemplate === `Portrait Template ${item}`
+                    }
+                    onChange={() =>
+                      handleTemplateSelect(
+                        `Portrait Template ${item}`,
+                        "portrait"
+                      )
+                    }
                   />
                   <Image
-                    src={`/templates/portrait-${item}.jpg`}  
+                    src={`/templates/portrait-${item}.jpg`}
                     alt={`Portrait Template ${item}`}
                     width={100}
                     height={100}
-                    className={selectedPortraitTemplate === `Portrait Template ${item}` ? styles.selectedImage : styles.templateImage}
+                    className={
+                      selectedPortraitTemplate === `Portrait Template ${item}`
+                        ? styles.selectedImage
+                        : styles.templateImage
+                    }
                   />
                 </label>
               </div>
             ))}
           </div>
           <div className={styles.buttonContainer}>
-            {/* Preview Button */}
-            <button
-              type="button"
-              className={styles.previewButton}
-              onClick={() => alert('Previewing...')}
-            >
-              Preview
-            </button>
+            <PreviewButton onPreview={handlePreview} />
           </div>
         </AccordionDetails>
       </Accordion>
 
-      <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3a-content" id="panel3a-header">
-          <Typography className={styles.customTypography}>Customize <HiPencilAlt className={styles.pencilIcon} /></Typography>
+      {/* Accordions for Customize */}
+      <Accordion
+        expanded={expanded === "panel3"}
+        onChange={handleChange("panel3")}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel3a-content"
+          id="panel3a-header"
+        >
+          <h2 className={styles.customTypography}>
+            Customize <HiPencilAlt className={styles.pencilIcon} />
+          </h2>
         </AccordionSummary>
         <AccordionDetails>
           <div className={styles.h3}>Choose Page Orientation</div>
@@ -149,8 +214,8 @@ export default function FormatPage() {
                   id="landscape"
                   name="orientation"
                   value="Landscape"
-                  checked={selectedOrientation === 'Landscape'}
-                  onChange={() => handleOrientationChange('Landscape')}
+                  checked={selectedOrientation === "landscape"}
+                  onChange={() => handleOrientationChange("landscape")}
                 />
                 <span className={styles.orientationText}>Landscape</span>
                 <Image
@@ -169,8 +234,8 @@ export default function FormatPage() {
                   id="portrait"
                   name="orientation"
                   value="Portrait"
-                  checked={selectedOrientation === 'Portrait'}
-                  onChange={() => handleOrientationChange('Portrait')}
+                  checked={selectedOrientation === "portrait"}
+                  onChange={() => handleOrientationChange("portrait")}
                 />
                 <span className={styles.orientationText}>Portrait</span>
                 <Image
@@ -184,11 +249,11 @@ export default function FormatPage() {
             </div>
           </div>
           <div className={styles.buttonContainer}>
-            {/* Preview Button */}
+            {/* Continue Button */}
             <button
               type="button"
               className={styles.previewButton}
-              onClick={() => alert('Continuing...')}
+              onClick={handleContinue}
             >
               Continue
             </button>
