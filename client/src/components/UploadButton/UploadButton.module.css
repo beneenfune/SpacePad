@@ -1,0 +1,25 @@
+.uploadButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #6495ed; /* Primary color */
+  color: #ffffff;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  gap: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.uploadButton:hover {
+  background-color: #4566a3; /* Darker on hover */
+}
+
+.fileInput {
+  display: none; /* Hides the default file input */
+}
+
+.icon {
+  filter: brightness(0) invert(1); /* Makes image white */
+}
