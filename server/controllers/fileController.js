@@ -2,6 +2,43 @@ const fs = require("fs");
 const path = require("path");
 const db = require("../db");
 
+module.exports.getPdf = async (req, res) => {
+  const { fileId } = req.params;
+
+  try {
+    // Check the database for the file's information
+    const queryText = "SELECT * FROM pdf_uploads WHERE id = $1";
+    const result = await db.query(queryText, [fileId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, error: "File not found" });
+    }
+
+    const fileData = result.rows[0];
+    const filePath = path.join(__dirname, "..", fileData.file_path);
+
+    // Check if the file exists on the server
+    fs.stat(filePath, (err, stats) => {
+      if (err || !stats.isFile()) {
+        return res
+          .status(404)
+          .json({ success: false, error: "File not found on server" });
+      }
+
+      // Set the correct Content-Type header and serve the file
+      res.setHeader("Content-Type", fileData.mime_type);
+      res.setHeader(
+        "Content-Disposition",
+        `inline; filename="${fileData.original_name}"`
+      );
+      fs.createReadStream(filePath).pipe(res);
+    });
+  } catch (error) {
+    console.error("Error fetching file:", error);
+    res.status(500).json({ success: false, error: "Failed to fetch file" });
+  }
+};
+
 module.exports.uploadFile = async (req, res) => {
   try {
     // Check if the file is uploaded
