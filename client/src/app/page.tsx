@@ -1,4 +1,4 @@
-"use client"; // This ensures the component is rendered as a Client Component
+"use client"; 
 
 import Image from "next/image";
 import styles from "./page.module.css";
@@ -9,12 +9,34 @@ import { useState } from "react";
 export default function Home() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
-  const handleFileUpload = (file: File | null) => {
+  const handleFileUpload = async (file: File | null) => {
     setUploadedFile(file);
-    if (file) {
-      console.log("Uploaded file:", file.name);
-      // TODO: Add additional logic for processing the uploaded file
-    }
+      if (file) {
+        console.log("Uploaded file:", file.name);
+
+        // Create form data for upload
+        const formData = new FormData();
+        formData.append("pdf", file);
+
+        try {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/upload`,
+            {
+              method: "POST",
+              body: formData, // COULD be file
+            }
+          );
+
+          const result = await response.json();
+          if (result.success) {
+            console.log("File uploaded successfully:", result.data);
+          } else {
+            console.error("Failed to upload file:", result.error);
+          }
+        } catch (error) {
+          console.error("Error uploading file:", error);
+        }
+      }
   };
 
   return (
