@@ -17,7 +17,7 @@ const DeleteFileButton: React.FC<DeleteFileProps> = ({
     setIsDeleting(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/delete/${fileId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/files/delete/${fileId}`,
         {
           method: "DELETE",
         }
@@ -28,7 +28,8 @@ const DeleteFileButton: React.FC<DeleteFileProps> = ({
       }
 
       setMessage("File deleted successfully!");
-
+      console.log(`File with ID ${fileId}deleted successfully.`);
+      
       // Notify parent component that deletion was successful
       onDeleteSuccess();
     } catch (error) {

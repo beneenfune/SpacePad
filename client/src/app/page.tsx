@@ -22,7 +22,7 @@ export default function Home() {
 
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/upload`,
+          `${process.env.NEXT_PUBLIC_API_URL}/files/upload`,
           {
             method: "POST",
             body: formData, // Upload file to backend
