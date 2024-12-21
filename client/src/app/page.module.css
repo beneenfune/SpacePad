@@ -62,7 +62,8 @@
   flex-direction: column;
   gap: 32px; /* Adjusted gap for even spacing */
   align-items: center; /* Centering content */
-  max-width: 800px; /* Limiting width for a cleaner look */
+  max-width: 1300px; /* Limiting width for a cleaner look */
+  width: 100%;
 }
 
 .ctas {

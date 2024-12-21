@@ -1,0 +1,64 @@
+/* PdfPreviewer.module.css */
+
+.pdfContainer {
+  display: flex;
+  justify-content: center;
+  padding: 0px;
+  flex-direction: column; /* Ensure content stacks vertically */
+  position: relative; /* Needed for sticky to work correctly */
+  width: 1500px;
+}
+
+.scrollablePDF {
+  width: 100%;
+  max-height: 600px;
+  overflow-y: auto; /* Enable scrolling */
+  background-color: #bebebe; /* Light gray background for the PDF container */
+  padding: 0px;
+  border-radius: 8px; /* Optional: rounded corners */
+
+  display: flex; /* Use flexbox to center the PDF and include zoom controls */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center horizontally */
+}
+
+/* Error Text */
+.errorText {
+  color: red;
+}
+
+.loadingSpinner {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Zoom Controls */
+.zoomControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Space between zoom buttons and text */
+  background-color: rgb(134, 134, 134); /* Background color for better readability */
+  z-index: 10; /* Ensure it's above other content */
+  padding: 10px 0; /* Add vertical padding for spacing */
+  width: 100%; /* Span the full width of its parent container */
+  position: sticky; /* Sticky within the scrollablePDF container */
+  top: 0; /* Stick to the top of the scrollable container */
+}
+
+.zoomLabel {
+  font-size: 18px; /* Adjust size for the zoom percentage */
+  font-weight: 500;
+  color: #333; /* Dark text for the zoom percentage */
+}
+
+.MuiIconButton-root {
+  background-color: #333; /* Dark background for zoom buttons */
+  color: white;
+  border-radius: 50%; /* Round buttons */
+  padding: 10px;
+  &:hover {
+    background-color: #555; /* Lighter shade on hover */
+  }
+}

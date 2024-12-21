@@ -36,19 +36,26 @@
   font-family: var(--font-geist-mono);
 }
 
+.main {
+  max-width: 1500px;
+  width:100%;
+  margin: 0 auto; /* Centers horizontally */
+  min-height: 100vh; /* Ensures full viewport height for centering vertically */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Centers content vertically */
+  align-items: center; /* Centers content horizontally */
+}
+
+
 .dropdown {
   position: relative;
   margin-top: 20px;
 }
 
 .dropdownHeader {
-  padding: 10px;
-  background-color: #f0f0f0;
-  cursor: pointer;
-  border: 1px solid #ccc;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 100%;
+  max-width: 1500px;
 }
 
 .dropdownList {

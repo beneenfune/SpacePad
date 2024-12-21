@@ -38,16 +38,18 @@ const CustomizePage = () => {
         <BackButton />
         <h2 className={styles.h2}> Customize </h2>
       </div>
-      {orientation === "landscape" ? (
-        <LandscapeOrientation />
-      ) : (
-        <PortraitOrientation />
-      )}
-      <div>
-        <FormatSelector
-          selectedOrientation={orientation}
-          onOrientationChange={handleOrientationChange} // Pass the handler
-        />
+      <div className={styles.main}>
+        {orientation === "landscape" ? (
+          <LandscapeOrientation />
+        ) : (
+          <PortraitOrientation />
+        )}
+        <div>
+          <FormatSelector
+            selectedOrientation={orientation}
+            onOrientationChange={handleOrientationChange} // Pass the handler
+          />
+        </div>
       </div>
       <div className={styles.buttonContainer}>
         <RestartButton onRestart={handleRestartCustomization} />

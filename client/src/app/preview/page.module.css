@@ -1,0 +1,41 @@
+.main{
+  max-width: 1500px;
+  margin: 0 auto; /* Centers horizontally */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Centers content vertically */
+  align-items: center; /* Centers content horizontally */
+}
+.h2 {
+  font-size: 1.55rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-top: 20px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.headerContainer {
+  display: flex; /* Use flex to arrange items in a row */
+  align-items: center; /* Center items vertically */
+  width: 100%; /* Full width to utilize space */
+  margin-bottom: 20px; /* Space below the header */
+  margin-top: 20px;
+  max-width: 800px;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding: 20px;
+  font-family: var(--font-geist-mono);
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: right; /* Distribute space between buttons */
+  width: 100%; /* Make the container full width */
+  margin-top: auto; /* Push buttons to the bottom of the page */
+}

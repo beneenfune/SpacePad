@@ -15,6 +15,15 @@
   margin-top: auto; /* Push buttons to the bottom of the page */
 }
 
+.main{
+  max-width: 1500px;
+  margin: 0 auto; /* Centers horizontally */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Centers content vertically */
+  align-items: center; /* Centers content horizontally */
+}
+
 .headerContainer {
   display: flex; /* Use flex to arrange items in a row */
   align-items: center; /* Center items vertically */
