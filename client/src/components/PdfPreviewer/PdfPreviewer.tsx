@@ -1,6 +1,6 @@
 import { pdfjs } from "react-pdf";
 import { useEffect, useState } from "react";
-import { CircularProgress, Box, IconButton, Typography } from "@mui/material";
+import { CircularProgress, Box, IconButton } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { Document, Page } from "react-pdf";
 import styles from "./PdfPreviewer.module.css"; // Import the CSS module
@@ -70,38 +70,40 @@ const PdfPreviewer: React.FC<PdfPreviewerProps> = ({ fileId }) => {
     return <p className={styles.errorText}>{error}</p>;
   }
 
-  return (
-    <Box className={styles.pdfContainer}>
-      <div className={styles.scrollablePDF}>
-        <Box className={styles.zoomControls}>
-          <IconButton onClick={handleZoomOut} aria-label="zoom out">
-            <Remove />
-          </IconButton>
-          <Typography variant="h6" className={styles.zoomLabel}>
-            {Math.round(zoom * 100)}%
-          </Typography>
-          <IconButton onClick={handleZoomIn} aria-label="zoom in">
-            <Add />
-          </IconButton>
+    return (
+      <div className={styles.page}>
+        <Box className={styles.pdfContainer}>
+          <div className={styles.scrollablePDF}>
+            <Box className={styles.zoomControls}>
+              <IconButton onClick={handleZoomOut} aria-label="zoom out">
+                <Remove />
+              </IconButton>
+              <div className={styles.zoomLabel}>
+                {Math.round(zoom * 100)}%
+              </div>
+              <IconButton onClick={handleZoomIn} aria-label="zoom in">
+                <Add />
+              </IconButton>
+            </Box>
+            {pdfData ? (
+              <Document file={pdfData} onLoadSuccess={onLoadSuccess}>
+                {Array.from(new Array(numPages), (_, index) => (
+                  <Page
+                    key={index}
+                    pageNumber={index + 1}
+                    scale={zoom}
+                    renderTextLayer={false} // Disable rendering of text layer
+                    renderAnnotationLayer={false} // Keeps annotation layer (e.g., links)
+                  />
+                ))}
+              </Document>
+            ) : (
+              <p>No PDF content available</p>
+            )}
+          </div>
         </Box>
-        {pdfData ? (
-          <Document file={pdfData} onLoadSuccess={onLoadSuccess}>
-            {Array.from(new Array(numPages), (_, index) => (
-              <Page
-                key={index}
-                pageNumber={index + 1}
-                scale={zoom}
-                renderTextLayer={false} // Disable rendering of text layer
-                renderAnnotationLayer={false} // Keeps annotation layer (e.g., links)
-              />
-            ))}
-          </Document>
-        ) : (
-          <p>No PDF content available</p>
-        )}
       </div>
-    </Box>
-  );
+    );
 };
 
 export default PdfPreviewer;

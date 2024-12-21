@@ -51,6 +51,7 @@
   font-size: 18px; /* Adjust size for the zoom percentage */
   font-weight: 500;
   color: #333; /* Dark text for the zoom percentage */
+  font-family: var(--font-geist-mono);
 }
 
 .MuiIconButton-root {
@@ -61,4 +62,13 @@
   &:hover {
     background-color: #555; /* Lighter shade on hover */
   }
+}
+.page {
+  --gray-rgb: 0, 0, 0;
+  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
+  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+
+  --button-primary-hover: #383838;
+  --button-secondary-hover: #f2f2f2;
+  font-family: var(--font-geist-mono);
 }
