@@ -11,7 +11,7 @@
 
 .scrollablePDF {
   width: 100%;
-  max-height: 600px;
+  max-height: 690px;
   overflow-y: auto; /* Enable scrolling */
   background-color: #bebebe; /* Light gray background for the PDF container */
   padding: 0px;
@@ -20,6 +20,15 @@
   display: flex; /* Use flexbox to center the PDF and include zoom controls */
   flex-direction: column; /* Stack items vertically */
   align-items: center; /* Center horizontally */
+}
+
+.pageWrapper {
+  margin: 10px 0; /* Gray space between pages */
+  background-color: white; /* Ensure each page has a white background */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1), 
+              0px 1px 4px rgba(0, 0, 0, 0.05); /* Adds a shadow for depth */
+  padding: 10px; /* Optional padding around the page */
+  display: flex; /* Keep the page-sized content centered */
 }
 
 /* Error Text */

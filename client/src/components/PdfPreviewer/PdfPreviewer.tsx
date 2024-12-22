@@ -78,9 +78,7 @@ const PdfPreviewer: React.FC<PdfPreviewerProps> = ({ fileId }) => {
               <IconButton onClick={handleZoomOut} aria-label="zoom out">
                 <Remove />
               </IconButton>
-              <div className={styles.zoomLabel}>
-                {Math.round(zoom * 100)}%
-              </div>
+              <div className={styles.zoomLabel}>{Math.round(zoom * 100)}%</div>
               <IconButton onClick={handleZoomIn} aria-label="zoom in">
                 <Add />
               </IconButton>
@@ -88,13 +86,14 @@ const PdfPreviewer: React.FC<PdfPreviewerProps> = ({ fileId }) => {
             {pdfData ? (
               <Document file={pdfData} onLoadSuccess={onLoadSuccess}>
                 {Array.from(new Array(numPages), (_, index) => (
-                  <Page
-                    key={index}
-                    pageNumber={index + 1}
-                    scale={zoom}
-                    renderTextLayer={false} // Disable rendering of text layer
-                    renderAnnotationLayer={false} // Keeps annotation layer (e.g., links)
-                  />
+                  <div key={index} className={styles.pageWrapper}>
+                    <Page
+                      pageNumber={index + 1}
+                      scale={zoom}
+                      renderTextLayer={false}
+                      renderAnnotationLayer={false}
+                    />
+                  </div>
                 ))}
               </Document>
             ) : (

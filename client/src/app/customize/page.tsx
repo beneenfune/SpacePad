@@ -36,7 +36,7 @@ const CustomizePage = () => {
       <HeaderBar />
       <div className={styles.headerContainer}>
         <BackButton />
-        <h2 className={styles.h2}> Customize </h2>
+        <h2 className={styles.h2}> Customize template</h2>
       </div>
       <div className={styles.main}>
         {orientation === "landscape" ? (

@@ -13,8 +13,8 @@
   display: flex; /* Use flex to arrange items in a row */
   align-items: center; /* Center items vertically */
   width: 100%; /* Full width to utilize space */
-  margin-bottom: 20px; /* Space below the header */
-  margin-top: 20px;
+  margin-bottom: 10px; /* Space below the header */
+  margin-top: 10px;
 }
 
 
@@ -37,7 +37,7 @@
 }
 
 .main {
-  max-width: 1500px;
+  max-width: 1000px;
   width:100%;
   margin: 0 auto; /* Centers horizontally */
   min-height: 100vh; /* Ensures full viewport height for centering vertically */

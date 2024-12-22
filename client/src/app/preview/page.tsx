@@ -12,7 +12,7 @@ import styles from "./page.module.css";
 
 
 const PreviewPage: React.FC = () => {
-  const [fileId, setFileId] = useState<number>(5); // This could be dynamic depending on which file to preview
+  const [fileId, setFileId] = useState<number>(8); // This could be dynamic depending on which file to preview
 
   // Function to handle preview button click
   const handlePreview = () => {
@@ -22,8 +22,13 @@ const PreviewPage: React.FC = () => {
     <div className={styles.page}>
       <HeaderBar />
       <div className={styles.headerContainer}>
-        <BackButton />
-        <div className={styles.h2}>PDF Preview</div>
+        <div className={styles.headerLeft}>
+          <BackButton />
+          <div className={styles.h2}>Confirm format</div>
+        </div>
+        <div className={styles.headerRight}>
+          <PreviewButton onPreview={handlePreview} />
+        </div>
       </div>
       <div className={styles.main}>
         <Box>
@@ -32,9 +37,6 @@ const PreviewPage: React.FC = () => {
             <PdfPreviewer fileId={fileId} />
           </Paper>
         </Box>
-      </div>
-      <div className={styles.buttonContainer}>
-        <PreviewButton onPreview={handlePreview} />
       </div>
     </div>
   );

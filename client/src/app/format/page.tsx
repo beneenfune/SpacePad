@@ -82,7 +82,7 @@ export default function FormatPage() {
             id="panel1a-header"
           >
             <h2 className={styles.customTypography}>
-              Landscape Templates{" "}
+              Landscape templates{" "}
               <BiLandscape className={styles.landscapeIcon} />
             </h2>
           </AccordionSummary>
@@ -146,7 +146,7 @@ export default function FormatPage() {
             id="panel2a-header"
           >
             <h2 className={styles.customTypography}>
-              Portrait Templates{" "}
+              Portrait templates{" "}
               <MdOutlinePortrait className={styles.portraitPersonIcon} />
             </h2>
           </AccordionSummary>
@@ -207,7 +207,7 @@ export default function FormatPage() {
             id="panel3a-header"
           >
             <h2 className={styles.customTypography}>
-              Customize <HiPencilAlt className={styles.pencilIcon} />
+              Customize template tool <HiPencilAlt className={styles.pencilIcon} />
             </h2>
           </AccordionSummary>
           <AccordionDetails>

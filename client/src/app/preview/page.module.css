@@ -19,10 +19,22 @@
 .headerContainer {
   display: flex; /* Use flex to arrange items in a row */
   align-items: center; /* Center items vertically */
+  justify-content: space-between; /* Push items to the edges */
   width: 100%; /* Full width to utilize space */
-  margin-bottom: 20px; /* Space below the header */
-  margin-top: 20px;
-  max-width: 800px;
+  margin-bottom: 10px; /* Space below the header */
+  margin-top: 10px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adds spacing between back button and title */
+}
+
+.headerRight {
+  display: flex;
+  justify-content: flex-end; /* Ensures the button is aligned to the right */
+  align-items: center;
 }
 
 .page {
@@ -31,11 +43,4 @@
   align-items: left;
   padding: 20px;
   font-family: var(--font-geist-mono);
-}
-
-.buttonContainer {
-  display: flex;
-  justify-content: right; /* Distribute space between buttons */
-  width: 100%; /* Make the container full width */
-  margin-top: auto; /* Push buttons to the bottom of the page */
 }
