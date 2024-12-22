@@ -9,5 +9,6 @@ router.delete("/delete/:fileId", filesController.deleteFile);
 router.get("/get-pdf/:fileId", filesController.getPdf);
 router.get("/process-pdf", filesController.processPdf);
 router.get("/get-processed-pdf/:fileId", filesController.getProcessedPdf);
+router.delete("/delete-processed-pdf/:fileId", filesController.deleteProcessedFile);
 
 module.exports = router;

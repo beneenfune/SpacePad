@@ -3,6 +3,52 @@ const path = require("path");
 const db = require("../db");
 const { PDFDocument } = require("pdf-lib");
 
+module.exports.deleteProcessedFile = async (req, res) => {
+  const { fileId } = req.params;
+  try {
+    const queryText = "SELECT * FROM pdf_files WHERE id = $1";
+    const result = await db.query(queryText, [fileId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, error: "File not found" });
+    }
+
+    const fileData = result.rows[0];
+    const filePath = path.join(__dirname, "..", fileData.file_path);
+
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error("Error deleting the file:", err);
+        return res.status(500).json({
+          success: false,
+          error: "Failed to delete file from the server",
+        });
+      }
+
+      const deleteQuery = "DELETE FROM pdf_files WHERE id = $1";
+      db.query(deleteQuery, [fileId])
+        .then(() => {
+          res
+            .status(200)
+            .json({ success: true, message: "File deleted successfully" });
+        })
+        .catch((dbError) => {
+          console.error("Database error:", dbError);
+          res.status(500).json({
+            success: false,
+            error: "Failed to delete file from the database",
+          });
+        });
+    });
+  } catch (error) {
+    console.error("Error during deletion:", error);
+    res
+      .status(500)
+      .json({ success: false, error: "Failed to process file deletion" });
+  }
+};
+
+
 module.exports.getProcessedPdf = async (req, res) => {
   const { fileId } = req.params;
 
@@ -72,8 +118,8 @@ module.exports.processPdf = async (req, res) => {
     // Define page size
     const { width, height } =
       orientation === "landscape"
-        ? { width: 792, height: 612 } // Landscape
-        : { width: 612, height: 792 }; // Portrait
+        ? { width: 842, height: 595 } // A4 Landscape
+        : { width: 595, height: 842 }; // A4 Portrait
 
     // Loop through the pages of the original PDF
     const originalPages = originalPdf.getPages();
@@ -97,10 +143,7 @@ module.exports.processPdf = async (req, res) => {
     }
 
     // Path to the 'processed' directory inside the 'server' folder
-    const processedDir = path.join(__dirname, "..", "processed");
-    if (!fs.existsSync(processedDir)) {
-      fs.mkdirSync(processedDir);
-    }
+    const processedDir = path.join("processed");
 
     // Save the new PDF
     const newPdfPath = path.join(processedDir, `processed-${Date.now()}.pdf`);
