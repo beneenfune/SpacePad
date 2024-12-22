@@ -5,8 +5,7 @@ import { Box, Paper, Typography } from "@mui/material";
 import PdfPreviewer from "@/components/PdfPreviewer/PdfPreviewer";
 import HeaderBar from "@/components/HeaderBar/HeaderBar";
 import BackButton from "@/components/BackButton/BackButton";
-import PreviewButton from "@/components/PreviewButton/PreviewButton";
-
+import DownloadButton from "@/components/DownloadButton/DownloadButton";
 
 import styles from "./page.module.css";
 
@@ -14,9 +13,8 @@ import styles from "./page.module.css";
 const PreviewPage: React.FC = () => {
   const [fileId, setFileId] = useState<number>(8); // This could be dynamic depending on which file to preview
 
-  // Function to handle preview button click
-  const handlePreview = () => {
-    alert("Implement Confirm Download Button"); 
+  const handleDownload = () => {
+    alert("Downloading the file...");
   };
   return (
     <div className={styles.page}>
@@ -27,7 +25,7 @@ const PreviewPage: React.FC = () => {
           <div className={styles.h2}>Confirm format</div>
         </div>
         <div className={styles.headerRight}>
-          <PreviewButton onPreview={handlePreview} />
+          <DownloadButton onClick={handleDownload} />
         </div>
       </div>
       <div className={styles.main}>
