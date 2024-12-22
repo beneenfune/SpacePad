@@ -3,6 +3,47 @@ const path = require("path");
 const db = require("../db");
 const { PDFDocument } = require("pdf-lib");
 
+module.exports.downloadProcessedFile = async (req, res) => {
+  const { fileId } = req.params;
+  try {
+    const queryText = "SELECT * FROM pdf_files WHERE id = $1";
+    const result = await db.query(queryText, [fileId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, error: "File not found" });
+    }
+
+    const fileData = result.rows[0];
+    const filePath = path.join(__dirname, "..", fileData.file_path);
+
+    // Check if the file exists on disk
+    if (!fs.existsSync(filePath)) {
+      return res
+        .status(404)
+        .json({ success: false, error: "File not found on server" });
+    }
+
+    // Send the file for download
+    res.download(
+      filePath,
+      fileData.original_name || "downloaded_file",
+      (err) => {
+        if (err) {
+          console.error("Error during file download:", err);
+          return res
+            .status(500)
+            .json({ success: false, error: "Failed to download the file" });
+        }
+      }
+    );
+  } catch (error) {
+    console.error("Error during download:", error);
+    res
+      .status(500)
+      .json({ success: false, error: "Failed to download " });
+  }
+}
+
 module.exports.deleteProcessedFile = async (req, res) => {
   const { fileId } = req.params;
   try {
