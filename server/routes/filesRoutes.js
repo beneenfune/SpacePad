@@ -1,11 +1,13 @@
 const express = require("express");
 const multer = require("multer");
 const router = express.Router();
-const fileController = require("../controllers/fileController");
+const filesController = require("../controllers/filesController");
 const upload = multer({ dest: "uploads/" });
 
-router.post("/upload", upload.single("pdf"), fileController.uploadFile);
-router.delete("/delete/:fileId", fileController.deleteFile);
-router.get("/get-pdf/:fileId", fileController.getPdf);
+router.post("/upload", upload.single("pdf"), filesController.uploadFile);
+router.delete("/delete/:fileId", filesController.deleteFile);
+router.get("/get-pdf/:fileId", filesController.getPdf);
+router.get("/process-pdf", filesController.processPdf);
+router.get("/get-processed-pdf/:fileId", filesController.getProcessedPdf);
 
 module.exports = router;

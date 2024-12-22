@@ -17,7 +17,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Basic endpoint
 app.get("/", (req, res) => {
-  res.send("<h1>Hello, express server!</h1>");
+  res.send("<h1>Express server is serving</h1>");
 });
 
 // Routes
