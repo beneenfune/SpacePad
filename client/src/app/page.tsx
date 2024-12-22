@@ -63,7 +63,7 @@ export default function Home() {
           <div className={styles.body}>
             Upload your PDF or PPT lecture slides and customize them with extra
             space for note-taking. With SpacePad, you can choose the placement
-            and size of each lecture page, adjusting the orienntation to
+            and size of each lecture page, adjusting the orientation to
             landscape or portrait to fit your note-taking preference.
           </div>
         </ol>
