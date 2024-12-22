@@ -89,8 +89,7 @@ module.exports.getProcessedPdf = async (req, res) => {
 
 
 module.exports.processPdf = async (req, res) => {
-  const { fileId } = req.query;
-  const orientation = req.query.orientation || "portrait"; // Default: portrait
+  const { fileId, position = "center", orientation = "landscape" } = req.query; // Default position is "center", orientation is "landscape"
 
   try {
     if (!fileId) {
@@ -128,13 +127,23 @@ module.exports.processPdf = async (req, res) => {
       const originalWidth = page.getWidth();
       const originalHeight = page.getHeight();
 
-      // Scale dimensions to a third
+      // Scale dimensions to half
       const scaledWidth = originalWidth / 2;
       const scaledHeight = originalHeight / 2;
 
-      // Calculate centered position
-      const x = (width - scaledWidth) / 2; // Center horizontally
-      const y = (height - scaledHeight) / 2; // Center vertically
+      // Calculate X position based on the "position" key
+      let x;
+      if (position === "left") {
+        x = 0; // Align to the left, but ensure the PDF fits completely
+      } else if (position === "right") {
+        x = width - scaledWidth; // Align to the right
+      } else {
+        // Default to "center"
+        x = (width - scaledWidth) / 2;
+      }
+
+      // Calculate the vertical position (center vertically)
+      const y = (height - scaledHeight) / 2;
 
       // Add a blank page to the new PDF with the desired orientation
       const newPage = newPdf.addPage([width, height]);
@@ -174,6 +183,7 @@ module.exports.processPdf = async (req, res) => {
     res.status(500).json({ error: "Failed to process the PDF." });
   }
 };
+
 
 module.exports.getPdf = async (req, res) => {
   const { fileId } = req.params;
