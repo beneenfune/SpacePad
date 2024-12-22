@@ -28,7 +28,7 @@ const PdfPreviewer: React.FC<PdfPreviewerProps> = ({ fileId }) => {
       setLoading(true);
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/files/get-pdf/${fileId}`
+          `${process.env.NEXT_PUBLIC_API_URL}/files/get-processed-pdf/${fileId}`
         );
 
         if (!response.ok) {

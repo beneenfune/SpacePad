@@ -12,7 +12,7 @@ import styles from "./page.module.css";
 
 
 const PreviewPage: React.FC = () => {
-  const [fileId, setFileId] = useState<number>(14); // This could be dynamic depending on which file to preview
+  const [fileId, setFileId] = useState<number>(5); // This could be dynamic depending on which file to preview
 
   // Function to handle preview button click
   const handlePreview = () => {

@@ -124,26 +124,36 @@ module.exports.processPdf = async (req, res) => {
     // Loop through the pages of the original PDF
     const originalPages = originalPdf.getPages();
     for (const page of originalPages) {
+      // Get the original dimensions of the page
+      const originalWidth = page.getWidth();
+      const originalHeight = page.getHeight();
+
+      // Scale dimensions to a third
+      const scaledWidth = originalWidth / 2;
+      const scaledHeight = originalHeight / 2;
+
+      // Calculate centered position
+      const x = (width - scaledWidth) / 2; // Center horizontally
+      const y = (height - scaledHeight) / 2; // Center vertically
+
       // Add a blank page to the new PDF with the desired orientation
       const newPage = newPdf.addPage([width, height]);
 
-      // Define padding and positioning
-      const padding = 50;
-      const x = padding;
-      const y = height - page.getHeight() - padding;
-
-      // Copy the content of the original page into the new page
+      // Embed the original page and draw it on the new page
       const [embeddedPage] = await newPdf.embedPages([page]);
       newPage.drawPage(embeddedPage, {
         x,
         y,
-        width: width - padding * 2,
-        height: page.getHeight(),
+        width: scaledWidth,
+        height: scaledHeight,
       });
     }
 
     // Path to the 'processed' directory inside the 'server' folder
     const processedDir = path.join("processed");
+    if (!fs.existsSync(processedDir)) {
+      fs.mkdirSync(processedDir);
+    }
 
     // Save the new PDF
     const newPdfPath = path.join(processedDir, `processed-${Date.now()}.pdf`);
@@ -163,7 +173,7 @@ module.exports.processPdf = async (req, res) => {
     console.error("Error processing the PDF:", error);
     res.status(500).json({ error: "Failed to process the PDF." });
   }
-}
+};
 
 module.exports.getPdf = async (req, res) => {
   const { fileId } = req.params;
