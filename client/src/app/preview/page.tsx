@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import axios from "axios";
-import downloadjs from "downloadjs";
-
 
 import { Box, Paper} from "@mui/material";
 import PdfPreviewer from "@/components/PdfPreviewer/PdfPreviewer";
@@ -18,33 +16,6 @@ import styles from "./page.module.css";
 const PreviewPage: React.FC = () => {
   const [fileId, setFileId] = useState<number>(8); // This could be dynamic depending on which file to preview
 
-// const handleDownload = async () => {
-//     try {
-//       const fileId = 8; // Example file ID
-//       const response = await axios.get(
-//         `${process.env.NEXT_PUBLIC_API_URL}/files/download/${fileId}`,
-//         {
-//           responseType: "blob",
-//           onDownloadProgress: (progressEvent) => {
-//             console.log(
-//               "Download progress: " +
-//                 Math.round(
-//                   (progressEvent.loaded / (progressEvent.total ?? 1)) * 100
-//                 ) +
-//                 "%"
-//             );
-//           },
-//         }
-//       );
-
-//       const data = response.data as Blob;
-//       downloadjs(data, `${fileId}.pdf`);
-//       console.log("Downloaded");
-//     } catch (error) {
-//       console.error("Error downloading file:", error);
-//       alert("Failed to download file.");
-//     }
-//   };
   return (
     <div className={styles.page}>
       <HeaderBar />
