@@ -12,7 +12,7 @@ import { MdOutlinePortrait } from "react-icons/md";
 import HeaderBar from "@/components/HeaderBar/HeaderBar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import PreviewButton from "@/components/PreviewButton/PreviewButton"; 
+import PreviewButton from "@/components/PreviewButton/PreviewButton";
 import BackButton from "@/components/BackButton/BackButton";
 import {
   PageFormat,
@@ -46,7 +46,9 @@ export default function FormatPage() {
 
   const handleContinue = () => {
     // Passing the selectedOrientation as a query parameter
-    router.push(`/customize?orientation=${selectedOrientation}`);
+    router.push(
+      `/customize?orientation=${selectedOrientation}&template=${selectedLandscapeTemplate}`
+    );
   };
 
   const handleTemplateSelect = (template: string, orientation: string) => {
@@ -59,7 +61,7 @@ export default function FormatPage() {
 
   // Function to handle preview button click
   const handlePreview = () => {
-    alert("Previewing..."); // Action to perform on preview
+    alert(`Previewing ${selectedLandscapeTemplate || "none"} template...`); // Action to perform on preview
   };
 
   return (
@@ -89,27 +91,19 @@ export default function FormatPage() {
           <AccordionDetails>
             {/* Landscape Templates form */}
             <div className={styles.templateOptions}>
-              {[1, 2, 3].map((item) => (
+              {["center", "left", "right"].map((item) => (
                 <div key={item} className={styles.templateOption}>
                   <label
-                    htmlFor={`landscape-template${item}`}
+                    htmlFor={`landscape-template-${item}`}
                     className={styles.imageLabel}
                   >
                     <input
                       type="radio"
-                      id={`landscape-template${item}`}
+                      id={`landscape-template-${item}`}
                       name="landscapeTemplate"
                       value={`Landscape Template ${item}`}
-                      checked={
-                        selectedLandscapeTemplate ===
-                        `Landscape Template ${item}`
-                      }
-                      onChange={() =>
-                        handleTemplateSelect(
-                          `Landscape Template ${item}`,
-                          "landscape"
-                        )
-                      }
+                      checked={selectedLandscapeTemplate === item}
+                      onChange={() => handleTemplateSelect(item, "landscape")}
                     />
                     {/* Image component used for displaying template image */}
                     <Image
@@ -118,8 +112,7 @@ export default function FormatPage() {
                       width={100}
                       height={100}
                       className={
-                        selectedLandscapeTemplate ===
-                        `Landscape Template ${item}`
+                        selectedLandscapeTemplate === item
                           ? styles.selectedImage
                           : styles.templateImage
                       }
@@ -207,7 +200,8 @@ export default function FormatPage() {
             id="panel3a-header"
           >
             <h2 className={styles.customTypography}>
-              Customize template tool <HiPencilAlt className={styles.pencilIcon} />
+              Customize template tool{" "}
+              <HiPencilAlt className={styles.pencilIcon} />
             </h2>
           </AccordionSummary>
           <AccordionDetails>
