@@ -26,7 +26,6 @@ module.exports.downloadProcessedFile = async (req, res) => {
     // Send the file for download
     res.download(
       filePath,
-      fileData.original_name || "downloaded_file",
       (err) => {
         if (err) {
           console.error("Error during file download:", err);
