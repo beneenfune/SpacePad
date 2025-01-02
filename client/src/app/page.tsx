@@ -1,6 +1,7 @@
 "use client"; 
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { FaRocket } from "react-icons/fa";
 import UploadButton from "@/components/UploadButton/UploadButton";
@@ -8,6 +9,7 @@ import DeleteFileButton from "@/components/DeleteFileButton/DeleteFileButton";
 import { useState } from "react";
 
 export default function Home() {
+    const router = useRouter();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [fileId, setFileId] = useState<number | null>(null); // To store file ID from server after upload
 
@@ -34,6 +36,10 @@ export default function Home() {
         if (result.success) {
           console.log("File uploaded successfully:", result.data);
           setFileId(result.data.fileId); // Assume the API returns a `fileId` for the uploaded file
+
+          // Redirect to /format after successful upload
+          router.push(`/format?fileId=${result.data.fileId}`);
+          
         } else {
           console.error("Failed to upload file:", result.error);
         }

@@ -14,14 +14,19 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PreviewButton from "@/components/PreviewButton/PreviewButton";
 import BackButton from "@/components/BackButton/BackButton";
+import { useSearchParams } from "next/navigation";
 import {
   PageFormat,
   usePageFormatContext,
 } from "../../context/PageFormatContext";
 
 export default function FormatPage() {
+  const searchParams = useSearchParams();
+  const fileId = searchParams.get("fileId");
   const [expanded, setExpanded] = useState<string | false>(false);
   const router = useRouter();
+
+  console.log("Received File ID:", fileId); 
 
   // Access context
   const { format, setFormat } = usePageFormatContext(); // Added context here
@@ -146,15 +151,15 @@ export default function FormatPage() {
           <AccordionDetails>
             {/* Portrait Templates form */}
             <div className={styles.templateOptions}>
-              {[1, 2, 3].map((item) => (
+              {["left", "center", "right"].map((item) => (
                 <div key={item} className={styles.templateOption}>
                   <label
-                    htmlFor={`portrait-template${item}`}
+                    htmlFor={`portrait-template-${item}`}
                     className={styles.imageLabel}
                   >
                     <input
                       type="radio"
-                      id={`portrait-template${item}`}
+                      id={`portrait-template-${item}`}
                       name="portraitTemplate"
                       value={`Portrait Template ${item}`}
                       checked={
