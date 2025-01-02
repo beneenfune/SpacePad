@@ -1,20 +1,31 @@
 "use client";
 
-import { useState } from "react";
-import axios from "axios";
-
-import { Box, Paper} from "@mui/material";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Box, Paper } from "@mui/material";
 import PdfPreviewer from "@/components/PdfPreviewer/PdfPreviewer";
 import HeaderBar from "@/components/HeaderBar/HeaderBar";
 import BackButton from "@/components/BackButton/BackButton";
-import DownloadButton from "@/components/DownloadButton/DownloadButton";
 import ConfirmDownloadButton from "@/components/ConfirmDownloadButton/ConfirmDownloadButton";
 
 import styles from "./page.module.css";
 
-
 const PreviewPage: React.FC = () => {
-  const [fileId, setFileId] = useState<number>(8); // This could be dynamic depending on which file to preview
+  const searchParams = useSearchParams();
+  const [fileId, setFileId] = useState<number | null>(null);
+  
+  useEffect(() => {
+    const fileIdFromURL = searchParams.get("fileId");
+    if (fileIdFromURL) {
+      setFileId(parseInt(fileIdFromURL, 10));
+    } else {
+      console.error("File ID is missing in the URL!");
+    }
+  }, [searchParams]);
+
+  if (!fileId) {
+    return <div>Loading...</div>; // Or handle the missing fileId case more elegantly
+  }
 
   return (
     <div className={styles.page}>

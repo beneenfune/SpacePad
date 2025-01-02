@@ -96,7 +96,7 @@ export default function FormatPage() {
         console.log(
           `PDF processed successfully with File ID: ${result.fileId}`
         );
-        router.push(`/preview?fileId=${fileId}`);
+        router.push(`/preview?fileId=${result.fileId}`);
       } else {
         throw new Error("Unexpected response format from server.");
       }
