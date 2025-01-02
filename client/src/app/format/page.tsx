@@ -65,9 +65,47 @@ export default function FormatPage() {
   };
 
   // Function to handle preview button click
-  const handlePreview = () => {
-    alert(`Previewing ${selectedLandscapeTemplate || "none"} template...`); // Action to perform on preview
+  const handlePreview = async () => {
+    if (!fileId) {
+      console.error("File ID is missing!");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/files/process-pdf?` +
+          new URLSearchParams({
+            fileId,
+            orientation: selectedOrientation,
+            position:
+              selectedLandscapeTemplate || selectedPortraitTemplate || "",
+          }),
+        {
+          method: "GET",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to process PDF: ${response.statusText}`);
+      }
+
+      // Parse the response
+      const result = await response.json();
+
+      if (result.fileId) {
+        console.log(
+          `PDF processed successfully with File ID: ${result.fileId}`
+        );
+        router.push(`/preview?fileId=${fileId}`);
+      } else {
+        throw new Error("Unexpected response format from server.");
+      }
+    } catch (error) {
+      console.error("Failed to process the PDF:", error);
+    }
   };
+
+
 
   return (
     <div className={styles.page}>
