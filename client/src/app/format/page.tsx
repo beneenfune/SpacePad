@@ -22,7 +22,6 @@ import {
   usePageFormatContext,
 } from "../../context/PageFormatContext";
 
-
 export default function FormatPage() {
   const searchParams = useSearchParams();
   const fileId = searchParams.get("fileId");
@@ -58,7 +57,7 @@ export default function FormatPage() {
     try {
       // Passing the selectedOrientation as a query parameter
       router.push(
-        `/customize?orientation=${selectedOrientation}&template=${selectedLandscapeTemplate}`
+        `/customize?orientation=${selectedOrientation}&fileId=${fileId}`
       );
     } catch (error) {
       console.error("Failed to process the PDF:", error);
@@ -118,8 +117,10 @@ export default function FormatPage() {
           1000 // Optional delay for user feedback
         );
       } else {
+        setProcessingMessage(
+          "Failed to process the PDF. Please try again."
+        );
         throw new Error("Unexpected response format from server.");
-        setProcessingMessage("Failed to process the PDF. Please try again.");
       }
     } catch (error) {
       console.error("Failed to process the PDF:", error);

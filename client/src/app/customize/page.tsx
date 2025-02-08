@@ -1,7 +1,6 @@
-"use client"; // Ensure this is marked as a client component
+"use client"; 
+
 import { useSearchParams, useRouter } from "next/navigation"; 
-import LandscapeOrientation from "@/components/LandscapeOrientation";
-import PortraitOrientation from "@/components/PortraitOrientation";
 import FormatSelector from "@/components/FormatSelector/FormatSelector";
 import HeaderBar from "@/components/HeaderBar/HeaderBar";
 import RestartButton from "@/components/RestartButton/RestartButton";
@@ -16,9 +15,10 @@ const CustomizePage = () => {
   const searchParams = useSearchParams(); 
   const router = useRouter();
   const orientation = searchParams.get("orientation") || "portrait"; 
+  const fileId = searchParams.get("fileId"); 
 
   const handleOrientationChange = (newOrientation: string) => {
-    router.push(`/customize?orientation=${newOrientation}`);
+    router.push(`/customize?orientation=${newOrientation}&fileId=${fileId}`);
   };
 
   const handleRestartCustomization = () => {
