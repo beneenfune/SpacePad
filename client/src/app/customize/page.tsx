@@ -8,19 +8,19 @@ import RestartButton from "@/components/RestartButton/RestartButton";
 import styles from "./page.module.css";
 import PreviewButton from "@/components/PreviewButton/PreviewButton";
 import BackButton from "@/components/BackButton/BackButton";
+import BaseTemplatePage from "@/components/BaseTemplatePage/BaseTemplatePage";
+
 
 
 const CustomizePage = () => {
-  const searchParams = useSearchParams(); // Get search params
-  const router = useRouter(); // Get router instance
-  const orientation = searchParams.get("orientation") || "portrait"; // Default to portrait if not set
+  const searchParams = useSearchParams(); 
+  const router = useRouter();
+  const orientation = searchParams.get("orientation") || "portrait"; 
 
-  // Function to handle orientation change
   const handleOrientationChange = (newOrientation: string) => {
-    router.push(`/customize?orientation=${newOrientation}`); // Update the URL with the new orientation
+    router.push(`/customize?orientation=${newOrientation}`);
   };
 
-  // Function to handle restart customization
   const handleRestartCustomization = () => {
     // Logic to restart customization (e.g., resetting state or navigating to initial state)
     alert("Customization restarted!"); // Placeholder for restart logic
@@ -28,7 +28,7 @@ const CustomizePage = () => {
 
   // Function to handle preview button click
   const handlePreview = () => {
-    alert("Previewing..."); // Action to perform on preview
+    alert("Previewing..."); 
   };
 
   return (
@@ -40,9 +40,9 @@ const CustomizePage = () => {
       </div>
       <div className={styles.main}>
         {orientation === "landscape" ? (
-          <LandscapeOrientation />
+          <BaseTemplatePage orientation="landscape" />
         ) : (
-          <PortraitOrientation />
+          <BaseTemplatePage orientation="portrait" />
         )}
         <div>
           <FormatSelector
