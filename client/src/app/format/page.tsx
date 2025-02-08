@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import PreviewButton from "@/components/PreviewButton/PreviewButton";
 import ProcessingDialog from "@/components/ProcessingDialog/ProcessingDialog";
 import BackButton from "@/components/BackButton/BackButton";
+import ContinueButton from "@/components/ContinueButton/ContinueButton";
 import { useSearchParams } from "next/navigation";
 import {
   PageFormat,
@@ -52,10 +53,18 @@ export default function FormatPage() {
     };
 
   const handleContinue = () => {
-    // Passing the selectedOrientation as a query parameter
-    router.push(
-      `/customize?orientation=${selectedOrientation}&template=${selectedLandscapeTemplate}`
-    );
+    setProcessing(true); // Show the dialog
+    setProcessingMessage("Redirecting..."); // Update the dialog message
+    try {
+      // Passing the selectedOrientation as a query parameter
+      router.push(
+        `/customize?orientation=${selectedOrientation}&template=${selectedLandscapeTemplate}`
+      );
+    } catch (error) {
+      console.error("Failed to process the PDF:", error);
+    } finally {
+      setTimeout(() => setProcessing(false), 1500); // Hide dialog after a delay
+    }
   };
 
   const handleTemplateSelect = (template: string, orientation: string) => {
@@ -306,14 +315,7 @@ export default function FormatPage() {
               </div>
             </div>
             <div className={styles.buttonContainer}>
-              {/* Continue Button */}
-              <button
-                type="button"
-                className={styles.previewButton}
-                onClick={handleContinue}
-              >
-                Continue
-              </button>
+              <ContinueButton onContinue={handleContinue} />
             </div>
           </AccordionDetails>
         </Accordion>

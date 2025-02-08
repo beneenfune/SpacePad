@@ -53,7 +53,9 @@ export default function Home() {
         }
       } catch (error) {
         console.error("Error uploading file:", error);
-      } 
+      } finally {
+        setTimeout(() => setIsUploading(false), 1500); // Hide dialog after a delay
+      }
     }
   };
 
