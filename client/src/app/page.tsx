@@ -18,9 +18,12 @@ export default function Home() {
     const router = useRouter();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [fileId, setFileId] = useState<number | null>(null); // To store file ID from server after upload
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileUpload = async (file: File | null) => {
     setUploadedFile(file);
+    setIsUploading(true);
+
     if (file) {
       console.log("Uploaded file:", file.name);
 
@@ -45,13 +48,12 @@ export default function Home() {
 
           // Redirect to /format after successful upload
           router.push(`/format?fileId=${result.data.fileId}`);
-          
         } else {
           console.error("Failed to upload file:", result.error);
         }
       } catch (error) {
         console.error("Error uploading file:", error);
-      }
+      } 
     }
   };
 
@@ -60,6 +62,7 @@ export default function Home() {
     setUploadedFile(null);
     setFileId(null);
   };
+  
 
   return (
     <div className={styles.page}>
