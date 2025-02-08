@@ -13,6 +13,7 @@ import HeaderBar from "@/components/HeaderBar/HeaderBar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PreviewButton from "@/components/PreviewButton/PreviewButton";
+import ProcessingDialog from "@/components/ProcessingDialog/ProcessingDialog";
 import BackButton from "@/components/BackButton/BackButton";
 import { useSearchParams } from "next/navigation";
 import {
@@ -20,15 +21,12 @@ import {
   usePageFormatContext,
 } from "../../context/PageFormatContext";
 
+
 export default function FormatPage() {
   const searchParams = useSearchParams();
   const fileId = searchParams.get("fileId");
   const [expanded, setExpanded] = useState<string | false>(false);
   const router = useRouter();
-
-  console.log("Received File ID:", fileId); 
-
-  // Access context
   const { format, setFormat } = usePageFormatContext(); // Added context here
   const [selectedOrientation, setSelectedOrientation] =
     useState<PageFormat>("landscape"); // Default to landscape
@@ -38,6 +36,10 @@ export default function FormatPage() {
   const [selectedPortraitTemplate, setSelectedPortraitTemplate] = useState<
     string | null
   >(null);
+  const [processing, setProcessing] = useState(false);
+  const [processingMessage, setProcessingMessage] = useState("");
+
+  console.log("Received File ID:", fileId); 
 
   const handleOrientationChange = (option: PageFormat) => {
     setSelectedOrientation(option);
@@ -71,6 +73,9 @@ export default function FormatPage() {
       return;
     }
 
+    setProcessing(true); // Show the dialog
+    setProcessingMessage("Processing your PDF..."); // Update the dialog message
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/files/process-pdf?` +
@@ -89,19 +94,28 @@ export default function FormatPage() {
         throw new Error(`Failed to process PDF: ${response.statusText}`);
       }
 
-      // Parse the response
       const result = await response.json();
 
       if (result.fileId) {
         console.log(
           `PDF processed successfully with File ID: ${result.fileId}`
         );
-        router.push(`/preview?fileId=${result.fileId}`);
+        setProcessingMessage("Redirecting to preview...");
+        setTimeout(
+          () => {
+            setProcessing(false); // Hide dialog
+            router.push(`/preview?fileId=${result.fileId}`);
+          },
+          1000 // Optional delay for user feedback
+        );
       } else {
         throw new Error("Unexpected response format from server.");
+        setProcessingMessage("Failed to process the PDF. Please try again.");
       }
     } catch (error) {
       console.error("Failed to process the PDF:", error);
+    } finally {
+      setTimeout(() => setProcessing(false), 1500); // Hide dialog after a delay
     }
   };
 
@@ -304,6 +318,7 @@ export default function FormatPage() {
           </AccordionDetails>
         </Accordion>
       </div>
+      <ProcessingDialog open={processing} message={processingMessage} />
     </div>
   );
 }
