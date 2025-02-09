@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs/promises");
 const path = require("path");
 const db = require("../db");
 const { PDFDocument } = require("pdf-lib");
@@ -262,6 +262,47 @@ module.exports.getPdf = async (req, res) => {
   }
 };
 
+module.exports.getPdfFirstPage = async (req, res) => {
+  const { fileId } = req.params;
+
+  try {
+    // Check the database for the file's information
+    const queryText = "SELECT * FROM pdf_uploads WHERE id = $1";
+    const result = await db.query(queryText, [fileId]);
+
+    if (result.rows.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, error: "File not found" });
+    }
+
+    const fileData = result.rows[0];
+    const filePath = path.join(__dirname, "..", fileData.file_path);
+
+    // Read the original PDF file
+    const pdfBytes = await fs.readFile(filePath);
+
+    // Generate a new PDF with the first page only
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const newPdfDoc = await PDFDocument.create();
+    const [copiedPage] = await newPdfDoc.copyPages(pdfDoc, [0]);
+    newPdfDoc.addPage(copiedPage);
+
+    // Serialize the new PDF to bytes
+    const newPdfBytes = await newPdfDoc.save();
+
+    // Send the new PDF with the first page as response
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `inline; filename="first_page_${fileData.original_name}"`
+    );
+    res.send(Buffer.from(newPdfBytes));
+  } catch (error) {
+    console.error("Error processing PDF:", error);
+    res.status(500).json({ success: false, error: "Failed to process PDF" });
+  }
+}
 
 module.exports.uploadFile = async (req, res) => {
   try {
