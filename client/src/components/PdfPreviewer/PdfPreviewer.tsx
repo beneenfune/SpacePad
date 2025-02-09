@@ -3,14 +3,9 @@ import { useEffect, useState } from "react";
 import { CircularProgress, Box, IconButton } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { Document, Page } from "react-pdf";
-import styles from "./PdfPreviewer.module.css"; // Import the CSS module
+import styles from "./PdfPreviewer.module.css"; 
 
-if (typeof window !== "undefined") {
-  pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    "pdfjs-dist/build/pdf.worker.min.mjs",
-    import.meta.url
-  ).toString();
-}
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 type PdfPreviewerProps = {
   fileId: number;

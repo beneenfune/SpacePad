@@ -1,4 +1,5 @@
-const fs = require("fs/promises");
+const fs = require("fs");
+const fspromise = require("fs/promises")
 const path = require("path");
 const db = require("../db");
 const { PDFDocument } = require("pdf-lib");
@@ -280,7 +281,7 @@ module.exports.getPdfFirstPage = async (req, res) => {
     const filePath = path.join(__dirname, "..", fileData.file_path);
 
     // Read the original PDF file
-    const pdfBytes = await fs.readFile(filePath);
+    const pdfBytes = await fspromise.readFile(filePath);
 
     // Generate a new PDF with the first page only
     const pdfDoc = await PDFDocument.load(pdfBytes);
