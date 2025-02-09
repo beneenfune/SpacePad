@@ -225,6 +225,93 @@ module.exports.processPdf = async (req, res) => {
   }
 };
 
+module.exports.processCustomTemplate = async (req, res) => {
+  const { fileId, x, y, width, height, orientation = "landscape" } = req.query;
+
+  try {
+    if (!fileId || !x || !y || !width || !height) {
+      return res.status(400).json({ error: "Missing required parameters." });
+    }
+
+    // Query database for file path
+    const { rows } = await db.query(
+      "SELECT file_path FROM pdf_uploads WHERE id = $1",
+      [fileId]
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "PDF not found." });
+    }
+
+    const filePath = rows[0].file_path;
+    const originalPdfBytes = fs.readFileSync(filePath);
+
+    // Load the uploaded PDF
+    const originalPdf = await PDFDocument.load(originalPdfBytes);
+
+    // Create a new PDF document
+    const newPdf = await PDFDocument.create();
+
+    // Define custom page size based on orientation
+    const { pageWidth, pageHeight } =
+      orientation === "landscape"
+        ? { pageWidth: 842, pageHeight: 595 } // A4 Landscape
+        : { pageWidth: 595, pageHeight: 842 }; // A4 Portrait
+
+    // Loop through the pages of the original PDF
+    const originalPages = originalPdf.getPages();
+    for (const page of originalPages) {
+      // Add a blank page to the new PDF with the new dimensions
+      const newPage = newPdf.addPage([pageWidth, pageHeight]);
+
+      // Embed the original page and place it within the new blank page
+      const [embeddedPage] = await newPdf.embedPages([page]);
+
+      // Get the original page dimensions
+      const originalPageWidth = page.getWidth();
+      const originalPageHeight = page.getHeight();
+
+      // Apply the x, y, width, and height to the original PDF page, scaling relative to the original page dimensions
+      const scaleX = parseFloat(width) / originalPageWidth;
+      const scaleY = parseFloat(height) / originalPageHeight;
+
+      // Adjust the x and y values to align with the PDF's page size
+      const adjustedX = parseFloat(x);
+      const adjustedY = parseFloat(y);  // Keep y as it is based on the input
+
+      newPage.drawPage(embeddedPage, {
+        x: adjustedX,
+        y: adjustedY,
+        width: originalPageWidth * scaleX,
+        height: originalPageHeight * scaleY,
+      });
+    }
+
+    // Save the new PDF
+    const processedDir = path.join("processed");
+    if (!fs.existsSync(processedDir)) {
+      fs.mkdirSync(processedDir);
+    }
+    const newPdfPath = path.join(processedDir, `processed-${Date.now()}.pdf`);
+    fs.writeFileSync(newPdfPath, await newPdf.save());
+
+    // Insert new file into the database
+    const result = await db.query(
+      "INSERT INTO pdf_files (file_path, created_at) VALUES ($1, NOW()) RETURNING id",
+      [newPdfPath]
+    );
+
+    const newFileId = result.rows[0].id;
+
+    // Respond with the new file ID
+    res.status(200).json({ fileId: newFileId });
+  } catch (error) {
+    console.error("Error processing the PDF:", error);
+    res.status(500).json({ error: "Failed to process the PDF." });
+  }
+};
+
+
+
 
 module.exports.getPdf = async (req, res) => {
   const { fileId } = req.params;

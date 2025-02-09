@@ -41,3 +41,14 @@
   text-align: left;
   font-size: 1.55rem;
 }
+
+.pdfContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center it inside the parent */
+  cursor: move; /* Indicate the draggable area */
+  max-width: 100%; /* Ensures it doesn't exceed the container width */
+  max-height: 100%; /* Ensures it doesn't exceed the container height */
+  overflow: hidden;
+}
